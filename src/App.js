@@ -4,10 +4,9 @@ import {
   Route
 } from "react-router-dom";
 
-import Home from "./Pages/Home";
-import MyPokemon from "./Pages/MyPokemon";
-import PokemonDetail from "./Pages/PokemonDetail";
-
+import Home from "./Components/Home";
+import MyPokemon from "./Components/MyPokemon";
+import PokemonDetail from "./Components/PokemonDetail";
 import NavbarLayout from "./Components/Navbar";
 
 import './Styles/App.css';
