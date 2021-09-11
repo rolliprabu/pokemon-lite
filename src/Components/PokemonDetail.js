@@ -1,9 +1,10 @@
+import React, { useState } from 'react';
 import {
     useQuery,
     gql
 } from "@apollo/client";
 import { useLocation, Redirect } from 'react-router-dom';
-import { Button, Col, Row } from 'reactstrap';
+import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row, Table } from 'reactstrap';
 
 const queryPokemon = gql`
     query pokemon($name: String!) {
@@ -30,14 +31,62 @@ const queryPokemon = gql`
 const PokemonDetail = (props) => {
     const location = useLocation();
 
-    if(!location.state){
+    const [modalCatchOpen, setModalCatchOpen] = useState(false);
+    const [caughtPokemon, setCaughtPokemon] = useState("");
+    const [caughtName, setCaughtName] = useState("");
+
+    const toggleModalCatch = () => setModalCatchOpen(!modalCatchOpen);
+
+    const savePokemon = () => {
+        var localPokemon = localStorage.getItem("PokemonData");
+        var pokemonObj = {};
+
+        if (localPokemon) {
+            pokemonObj = JSON.parse(localPokemon);
+
+            if(!pokemonObj[caughtPokemon]){
+                pokemonObj[caughtPokemon] = [];
+            }
+            
+            pokemonObj[caughtPokemon].push(caughtName)
+        } else {
+            pokemonObj = { [caughtPokemon]: [caughtName] };
+        }
+        
+        localStorage.setItem("PokemonData", JSON.stringify(pokemonObj))
+        
+        setCaughtName("");
+        toggleModalCatch();
+    }
+
+    if (!location.state) {
         alert("No pokemon selected");
         return <Redirect to="/" />
     } else {
         return (
             <div className="Detail-Container">
                 <h2>Pokemon Detail</h2>
-                <PokemonInfo pokemonName={location.state.pokemon}/>
+                <PokemonInfo
+                    pokemonName={location.state.pokemon}
+                    toggleModalCatch={toggleModalCatch}
+                    setCaughtPokemon={setCaughtPokemon}
+                />
+                <Modal isOpen={modalCatchOpen} toggle={toggleModalCatch} backdrop={"static"}>
+                    <ModalHeader>SUCCESS</ModalHeader>
+                    <ModalBody>
+                        <p>Congratulation, you catch <b>{caughtPokemon}</b></p>
+                        <p>Please give it a good name :)</p>
+                        <input
+                            type="text"
+                            value={caughtName}
+                            onChange={e => setCaughtName(e.target.value)}
+                        />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={savePokemon}>Save</Button>{' '}
+                        <Button color="danger" onClick={toggleModalCatch}>Release</Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         )
     }
@@ -56,46 +105,83 @@ const PokemonInfo = (props) => {
     if (error) return <p>Error :(</p>;
 
     const pokemonData = data.pokemon
-    console.log(pokemonData)
+
+    const tryCatch = (pokemon) => {
+        var successCatch = Math.random() < 0.5;
+
+        if (successCatch) {
+            props.setCaughtPokemon(pokemon)
+            props.toggleModalCatch()
+        } else {
+            alert("you failed to catch: " + pokemon)
+        }
+    }
 
     return (
         <Row className="Detail-Info">
             <Col xs="12" sm="4">
                 <div>
-                    <img src={pokemonData.sprites.front_default} alt="poke_img.png"/>
+                    <img src={pokemonData.sprites.front_default} alt="poke_img.png" />
                 </div>
-                <div>
+                <div className="mb-2">
                     <Button color="success" onClick={() => tryCatch(pokemonData.name)}>Catch this pokemon!</Button>
                 </div>
             </Col>
             <Col xs="12" sm="8">
                 <div className="Detail-Info-Box">
-                    <div>
+                    <Row>
                         <b>{pokemonData.name}</b>
-                    </div>
-                    <div>
-                        <Row>
+                    </Row>
+                    <Row className="mb-2">
                         {
                             pokemonData.types.map((e, i) => {
                                 return (
-                                    <Col key={"poke_type_"+i} className="d-flex justify-content-center">
-                                        <div className={"align-middle Detail-Type-Box "+e.type.name}>
+                                    <Col key={"poke_type_" + i} className="d-flex justify-content-center">
+                                        <div className={"align-middle Detail-Type-Box " + e.type.name}>
                                             {e.type.name}
                                         </div>
                                     </Col>
                                 )
                             })
                         }
-                        </Row>
-                    </div>
+                    </Row>
+                    <Row>
+                        <div className="Detail-Table-Move">
+                            <Table striped>
+                                <thead>
+                                    <tr>
+                                        <th colSpan="2">Move Set</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        pokemonData.moves.map((e, i) => {
+                                            if (i == 0 || i % 2 == 0) {
+                                                if (pokemonData.moves[i + 1]) {
+                                                    return (
+                                                        <tr key={"poke_move_" + i}>
+                                                            <td>{pokemonData.moves[i].move.name}</td>
+                                                            <td>{pokemonData.moves[i + 1].move.name}</td>
+                                                        </tr>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <tr key={"poke_move_" + i}>
+                                                            <td colSpan="2">{pokemonData.moves[i].move.name}</td>
+                                                        </tr>
+                                                    )
+                                                }
+                                            }
+                                        })
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
+                    </Row>
                 </div>
             </Col>
         </Row>
     )
-}
-
-const tryCatch = (pokemon) => {
-    alert("you catch: " + pokemon)
 }
 
 export default PokemonDetail;

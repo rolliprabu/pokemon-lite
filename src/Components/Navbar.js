@@ -33,9 +33,6 @@ const NavbarLayout = (props) => {
                             <NavLink tag={Link} to="/" onClick={closeNavbar} className="Navbar-text">Pokemon List</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} to="/detail" onClick={closeNavbar} className="Navbar-text">Pokemon Detail</NavLink>
-                        </NavItem>
-                        <NavItem>
                             <NavLink tag={Link} to="/mypokemon" onClick={closeNavbar} className="Navbar-text">My Pokemon</NavLink>
                         </NavItem>
                     </Nav>
