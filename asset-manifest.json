@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/pokemon-lite/static/css/main.e38e664a.chunk.css",
+    "main.js": "/pokemon-lite/static/js/main.bb2615b5.chunk.js",
+    "main.js.map": "/pokemon-lite/static/js/main.bb2615b5.chunk.js.map",
+    "runtime-main.js": "/pokemon-lite/static/js/runtime-main.456b7000.js",
+    "runtime-main.js.map": "/pokemon-lite/static/js/runtime-main.456b7000.js.map",
+    "static/css/2.f2512455.chunk.css": "/pokemon-lite/static/css/2.f2512455.chunk.css",
+    "static/js/2.82efd341.chunk.js": "/pokemon-lite/static/js/2.82efd341.chunk.js",
+    "static/js/2.82efd341.chunk.js.map": "/pokemon-lite/static/js/2.82efd341.chunk.js.map",
+    "static/js/3.9ce147a5.chunk.js": "/pokemon-lite/static/js/3.9ce147a5.chunk.js",
+    "static/js/3.9ce147a5.chunk.js.map": "/pokemon-lite/static/js/3.9ce147a5.chunk.js.map",
+    "index.html": "/pokemon-lite/index.html",
+    "static/css/2.f2512455.chunk.css.map": "/pokemon-lite/static/css/2.f2512455.chunk.css.map",
+    "static/css/main.e38e664a.chunk.css.map": "/pokemon-lite/static/css/main.e38e664a.chunk.css.map",
+    "static/js/2.82efd341.chunk.js.LICENSE.txt": "/pokemon-lite/static/js/2.82efd341.chunk.js.LICENSE.txt",
+    "static/media/pokeball.de24102c.png": "/pokemon-lite/static/media/pokeball.de24102c.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.456b7000.js",
+    "static/css/2.f2512455.chunk.css",
+    "static/js/2.82efd341.chunk.js",
+    "static/css/main.e38e664a.chunk.css",
+    "static/js/main.bb2615b5.chunk.js"
+  ]
+}
