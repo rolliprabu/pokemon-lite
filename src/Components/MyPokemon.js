@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from "@apollo/client";
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from 'reactstrap';
 
 import PokemonCard from '../Components/PokemonCard';
 
@@ -67,8 +67,8 @@ const MyPokemon = () => {
         variables: gqlVariables,
     });
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+    if (loading) return (<div><Spinner color="primary" children=""/><p>loading pokemon data, please wait</p></div>);
+    if (error) return <p>Error loading pokemon data from graphQl, please refresh the page</p>;
 
     const pokemonList = data.pokemons.results;
 

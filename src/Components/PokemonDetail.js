@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from "@apollo/client";
 import { useLocation, Redirect } from 'react-router-dom';
-import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row, Table } from 'reactstrap';
+import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner, Table } from 'reactstrap';
 
 const queryPokemon = gql`
     query pokemon($name: String!) {
@@ -118,8 +118,8 @@ const PokemonInfo = (props) => {
         variables: gqlVariables,
     });
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+    if (loading) return (<div><Spinner color="primary" children=""/><p>loading pokemon data, please wait</p></div>);
+    if (error) return <p>Error loading pokemon data from graphQl, please refresh the page</p>;
 
     const pokemonData = data.pokemon;
 
