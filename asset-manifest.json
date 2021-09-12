@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/pokemon-lite/static/css/main.e38e664a.chunk.css",
-    "main.js": "/pokemon-lite/static/js/main.bb2615b5.chunk.js",
-    "main.js.map": "/pokemon-lite/static/js/main.bb2615b5.chunk.js.map",
+    "main.js": "/pokemon-lite/static/js/main.d8f1b949.chunk.js",
+    "main.js.map": "/pokemon-lite/static/js/main.d8f1b949.chunk.js.map",
     "runtime-main.js": "/pokemon-lite/static/js/runtime-main.456b7000.js",
     "runtime-main.js.map": "/pokemon-lite/static/js/runtime-main.456b7000.js.map",
     "static/css/2.f2512455.chunk.css": "/pokemon-lite/static/css/2.f2512455.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.f2512455.chunk.css",
     "static/js/2.82efd341.chunk.js",
     "static/css/main.e38e664a.chunk.css",
-    "static/js/main.bb2615b5.chunk.js"
+    "static/js/main.d8f1b949.chunk.js"
   ]
 }
