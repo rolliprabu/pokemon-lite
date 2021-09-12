@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-    useQuery,
-    gql
-} from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import { useLocation, Redirect } from 'react-router-dom';
 import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row, Table } from 'reactstrap';
 
@@ -32,31 +29,40 @@ const PokemonDetail = (props) => {
     const location = useLocation();
 
     const [modalCatchOpen, setModalCatchOpen] = useState(false);
+    const [modalFailedOpen, setModalFailedOpen] = useState(false);
     const [caughtPokemon, setCaughtPokemon] = useState("");
     const [caughtName, setCaughtName] = useState("");
 
     const toggleModalCatch = () => setModalCatchOpen(!modalCatchOpen);
+    const toggleModalFailed = () => setModalFailedOpen(!modalFailedOpen);
 
     const savePokemon = () => {
         var localPokemon = localStorage.getItem("PokemonData");
         var pokemonObj = {};
+        var isUnique = true;
 
         if (localPokemon) {
             pokemonObj = JSON.parse(localPokemon);
 
-            if(!pokemonObj[caughtPokemon]){
+            if (!pokemonObj[caughtPokemon]) {
                 pokemonObj[caughtPokemon] = [];
             }
             
-            pokemonObj[caughtPokemon].push(caughtName)
+            Object.values(pokemonObj).forEach(val => {if (val.includes(caughtName)) isUnique = false});
+
+            pokemonObj[caughtPokemon].push(caughtName);
         } else {
             pokemonObj = { [caughtPokemon]: [caughtName] };
         }
-        
-        localStorage.setItem("PokemonData", JSON.stringify(pokemonObj))
-        
-        setCaughtName("");
-        toggleModalCatch();
+
+        if(isUnique){
+            localStorage.setItem("PokemonData", JSON.stringify(pokemonObj));
+
+            setCaughtName("");
+            toggleModalCatch();
+        } else {
+            alert("You already have a pokemon named: " + caughtName + "\nPlease give it another name");
+        }
     }
 
     if (!location.state) {
@@ -69,6 +75,7 @@ const PokemonDetail = (props) => {
                 <PokemonInfo
                     pokemonName={location.state.pokemon}
                     toggleModalCatch={toggleModalCatch}
+                    toggleModalFailed={toggleModalFailed}
                     setCaughtPokemon={setCaughtPokemon}
                 />
                 <Modal isOpen={modalCatchOpen} toggle={toggleModalCatch} backdrop={"static"}>
@@ -85,6 +92,16 @@ const PokemonDetail = (props) => {
                     <ModalFooter>
                         <Button color="primary" onClick={savePokemon}>Save</Button>{' '}
                         <Button color="danger" onClick={toggleModalCatch}>Release</Button>
+                    </ModalFooter>
+                </Modal>
+                <Modal isOpen={modalFailedOpen} toggle={toggleModalFailed} backdrop={"static"}>
+                    <ModalHeader>Failed</ModalHeader>
+                    <ModalBody>
+                        <p>Failed to catch <b>{caughtPokemon}</b></p>
+                        <p>Keep trying, dont give up!</p>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={toggleModalFailed}>Close</Button>
                     </ModalFooter>
                 </Modal>
             </div>
@@ -104,16 +121,16 @@ const PokemonInfo = (props) => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 
-    const pokemonData = data.pokemon
+    const pokemonData = data.pokemon;
 
     const tryCatch = (pokemon) => {
         var successCatch = Math.random() < 0.5;
+        props.setCaughtPokemon(pokemon);
 
         if (successCatch) {
-            props.setCaughtPokemon(pokemon)
-            props.toggleModalCatch()
+            props.toggleModalCatch();
         } else {
-            alert("you failed to catch: " + pokemon)
+            props.toggleModalFailed();
         }
     }
 

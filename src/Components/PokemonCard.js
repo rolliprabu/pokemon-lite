@@ -1,7 +1,5 @@
-import {
-    Button, Card, CardImg, CardText, CardBody,
-    CardTitle, Col, Table
-} from 'reactstrap';
+import React from 'react';
+import { Card, CardImg, CardText, CardBody, CardTitle, Col } from 'reactstrap';
 import { useHistory } from 'react-router-dom'
 
 const PokemonCard = (props) => {
@@ -14,57 +12,36 @@ const PokemonCard = (props) => {
         });
     };
 
-    return props.data.map((e, i) => {
-        // console.log(props.ownPokemon[e.name].length)
-
-        var pokemonNum = 0
+    return props.data.map((pokeData, dataIndex) => {
+        var pokemonNum = 0;
 
         if (props.ownPokemon) {
-            pokemonNum = props.ownPokemon[e.name] ? props.ownPokemon[e.name].length : 0;
+            pokemonNum = props.ownPokemon[pokeData.name] ? props.ownPokemon[pokeData.name].length : 0;
         }
 
         return (
-            <Col key={"poke_" + i} xs="6" sm="2">
+            <Col key={"poke_" + dataIndex} xs="6" sm="4" md="3" lg="2">
                 <Card className="Card-Pokemon">
-                    <CardImg top width="100%" src={e.image} alt={e.name + ".png"} onClick={() => clickAction(e.name)} />
-                    <CardBody onClick={() => clickAction(e.name)}>
-                        <CardTitle tag="h5">{e.name}</CardTitle>
+                    <CardImg top width="100%" src={pokeData.image} alt={pokeData.name + ".png"} onClick={() => clickAction(pokeData.name)} />
+                    <CardBody onClick={() => clickAction(pokeData.name)}>
+                        <CardTitle tag="h5">{pokeData.name}</CardTitle>
                         <CardText>You own: {pokemonNum}</CardText>
-
                     </CardBody>
-                    {/* <Table>
-                        <tbody>
-                            {props.showName &&
-                                props.ownPokemon[e.name].map((e, i) => {
-                                    return (
-                                        <tr key={"mypoke_" + i}>
-                                            <td>
-                                                "{e}"
-                                            </td>
-                                            <td>
-                                                <Button color="danger" onClick={() => alert(e)}>release</Button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </Table> */}
                     {props.showName &&
-                        props.ownPokemon[e.name].map((e, i) => {
+                        props.ownPokemon[pokeData.name].map((pokeName, pokeIndex) => {
                             return (
-                                <div key={"mypoke_" + i} className="d-flex flex-row mb-2">
+                                <div key={"mypoke_" + pokeIndex} onClick={() => props.releasePokemon(pokeData.name, pokeName)} className="d-flex justify-content-between mb-1 mx-2 border-bottom">
                                     <div>
-                                        "{e}"
+                                        - "{pokeName.length > 10 ? pokeName.substring(0, 10) + "..." : pokeName}"
                                     </div>
-                                    <div>
-                                        {/* <Button color="danger" onClick={() => alert(e)}>release</Button> */}
-                                        :
+                                    <div className="d-flex justify-content-center">
+                                        <div className="Card-Menu-Dot">&nbsp;&#10247;</div>
                                     </div>
                                 </div>
                             )
                         })
                     }
+                    <div className="mb-3"></div>
                 </Card>
             </Col>
         )

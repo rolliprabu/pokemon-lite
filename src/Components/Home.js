@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  useQuery,
-  gql
-} from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import { Row } from 'reactstrap';
 
 import PokemonCard from '../Components/PokemonCard';
@@ -48,7 +45,7 @@ const Home = () => {
       var isOwn = localPokemon[pokemonName] ? localPokemon[pokemonName].length > 0 : false;
 
       if(isOwn){
-          myPokemon.push(pokemonList[i])
+          myPokemon.push(pokemonList[i]);
       }
   }
 

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  max-height: 100vh;
 }
 
 .App-logo {
@@ -115,6 +116,15 @@
 /* .Detail-Button-Catch {
   margin-bottom: 10px;
 } */
+
+.Card-Menu-Dot {
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.Card-Menu-Dot:hover {
+  background-color: rgb(206, 206, 206);
+}
 
 .normal {
   background-color: #a8a878;
